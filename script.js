@@ -1,16 +1,21 @@
 let balance = parseFloat(localStorage.getItem('balance')) || 0;
 let transactionHistory = JSON.parse(localStorage.getItem('transactionHistory')) || [];
+let editIndex = -1;
 
 document.addEventListener('DOMContentLoaded', function() {
     updateBalanceDisplay();
     populateHistoryTable();
+    populateDescriptionTable();
 });
 
 function addTransaction() {
     const transactionType = document.getElementById('transactionType').value;
-    const transactionAmount = parseFloat(document.getElementById('transactionAmount').value);
+    const transactionAmountInput = document.getElementById('transactionAmount');
+    const transactionAmount = parseFloat(transactionAmountInput.value);
+    const transactionDescription = document.getElementById('transactionDescription').value;
 
-    if (isNaN(transactionAmount) || transactionAmount <= 0 || transactionType === 'Income / Expenses') {
+    // Validate input
+    if (isNaN(transactionAmount) || transactionAmount <= 0 || transactionType === 'Income / Expenses' || transactionDescription.trim() === '') {
         alert('Please enter a valid transaction.');
         return;
     }
@@ -18,10 +23,12 @@ function addTransaction() {
     const transaction = {
         type: transactionType,
         amount: transactionAmount,
+        description: transactionDescription,
         date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }), // Format date
         balance: 0  // Placeholder to be updated later
     };
 
+    // Update balance based on transaction type
     if (transactionType === 'income') {
         balance += transactionAmount;
     } else if (transactionType === 'expenses') {
@@ -35,18 +42,29 @@ function addTransaction() {
 
     updateBalanceDisplay();
     populateHistoryTable();
+    populateDescriptionTable();
+
+    // Clear input fields after adding transaction
+    transactionAmountInput.value = '';
     document.getElementById('transactionType').value = 'Income / Expenses';
-    document.getElementById('transactionAmount').value = '';
+    document.getElementById('transactionDescription').value = '';
 }
 
 function updateBalanceDisplay() {
     const balanceElement = document.getElementById('yourBalance');
     balanceElement.innerHTML = `<span>₹ </span> ${balance.toFixed(2)}`;
-    balanceElement.className = balance >= 0 ? 'green' : 'red';
+    
+    // Set color based on balance
+    if (balance >= 0) {
+        balanceElement.style.color = 'green';
+    } else {
+        balanceElement.style.color = 'red';
+    }
 
     document.getElementById('totalIncome').innerHTML = `<span>₹ </span> ${getTotalAmount('income').toFixed(2)}`;
     document.getElementById('totalExpenses').innerHTML = `<span>₹ </span> ${getTotalAmount('expenses').toFixed(2)}`;
 }
+
 
 function getTotalAmount(type) {
     return transactionHistory
@@ -67,31 +85,52 @@ function populateHistoryTable() {
             <td>₹ ${transaction.amount.toFixed(2)}</td>
             <td>₹ ${transaction.balance.toFixed(2)}</td>
             <td>
-                <button class="btn btn-primary btn-sm" onclick="editTransaction(${index})">Edit</button>
+                <button class="btn btn-primary btn-sm" onclick="openEditTransactionModal(${index})">Edit</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-function editTransaction(index) {
+function populateDescriptionTable() {
+    const descriptionTableBody = document.getElementById('tableDiscrption');
+    descriptionTableBody.innerHTML = '';
+
+    transactionHistory.forEach((transaction, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <th scope="row">${index + 1}</th>
+            <td>${transaction.description}</td>
+        `;
+        descriptionTableBody.appendChild(row);
+    });
+}
+
+function openEditTransactionModal(index) {
+    editIndex = index;
     const transaction = transactionHistory[index];
-    const newType = prompt("Edit Transaction Type (income/expenses):", transaction.type);
-    const newAmount = parseFloat(prompt("Edit Transaction Amount:", transaction.amount));
+    document.getElementById('editTransactionType').value = transaction.type;
+    document.getElementById('editTransactionAmount').value = transaction.amount;
+    document.getElementById('editTransactionDescription').value = transaction.description;
+    const editTransactionModal = new bootstrap.Modal(document.getElementById('editTransactionModal'));
+    editTransactionModal.show();
+}
 
-    if (newType !== 'income' && newType !== 'expenses') {
-        alert('Invalid transaction type. Please enter "income" or "expenses".');
+function saveEditTransaction() {
+    const transactionType = document.getElementById('editTransactionType').value;
+    const transactionAmount = parseFloat(document.getElementById('editTransactionAmount').value);
+    const transactionDescription = document.getElementById('editTransactionDescription').value;
+
+    // Validate input
+    if (isNaN(transactionAmount) || transactionAmount <= 0 || transactionType === '' || transactionDescription.trim() === '') {
+        alert('Please enter valid transaction details.');
         return;
     }
 
-    if (isNaN(newAmount) || newAmount <= 0) {
-        alert('Please enter a valid amount.');
-        return;
-    }
-
-    // Update the transaction
-    transaction.type = newType;
-    transaction.amount = newAmount;
+    const transaction = transactionHistory[editIndex];
+    transaction.type = transactionType;
+    transaction.amount = transactionAmount;
+    transaction.description = transactionDescription;
 
     // Recalculate balance
     recalculateBalance();
@@ -102,6 +141,10 @@ function editTransaction(index) {
 
     updateBalanceDisplay();
     populateHistoryTable();
+    populateDescriptionTable();
+
+    const editTransactionModal = bootstrap.Modal.getInstance(document.getElementById('editTransactionModal'));
+    editTransactionModal.hide();
 }
 
 function recalculateBalance() {
@@ -116,12 +159,9 @@ function recalculateBalance() {
     });
 }
 
-function showDeletePop() {
-    document.getElementById('delete-pop').style.display = 'block';
-}
-
-function hideDeletePop() {
-    document.getElementById('delete-pop').style.display = 'none';
+function openClearConfirmationModal() {
+    const clearConfirmationModal = new bootstrap.Modal(document.getElementById('clearConfirmationModal'));
+    clearConfirmationModal.show();
 }
 
 function clearLocalStorage() {
@@ -130,5 +170,7 @@ function clearLocalStorage() {
     transactionHistory = [];
     updateBalanceDisplay();
     populateHistoryTable();
-    hideDeletePop(); // Hide the pop-up after clearing
+    populateDescriptionTable();
+    const clearConfirmationModal = bootstrap.Modal.getInstance(document.getElementById('clearConfirmationModal'));
+    clearConfirmationModal.hide();
 }
