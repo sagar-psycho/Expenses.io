@@ -1,0 +1,72 @@
+#ai-bot {
+    float: right;
+    margin-right: 5%;
+    clip-path: circle(50%);
+    height: 100px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: transparent;
+    mix-blend-mode: multiply;
+    
+}
+@media (max-width: 769px) {
+    #ai-bot{
+        height: 50px;
+    }
+    
+}
+.popup {
+    color: black;
+    width: 60vh;
+    height: 40vh;
+    margin-left: 10px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.top-pop {
+    display: flex;
+    gap: 10px;
+    background-color: yellow;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    padding: 10px;
+}
+
+.imgpopup img {
+    height: 60px;
+    clip-path: circle(50%);
+}
+
+.head-p {
+    margin-top: 10px;
+}
+
+.head-p1 {
+    margin-top: -20px
+}
+
+.pop-body {
+    padding: 10px;
+}
+
+.pop-body p {
+    background-color: silver;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.powered-sagar{
+    text-align: center;
+    padding-top: 50px;
+}
