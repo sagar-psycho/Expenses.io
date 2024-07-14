@@ -54,30 +54,36 @@
         <div class="container right-container">
             <h1>History</h1>
             <button type="button" class="btn btn-info mb-3 float-end" style="margin-top: -45px;" onclick="saveAsPDF()">Save as PDF</button>
-            <table class="table table-striped mt-3">
-                <thead>
-                    <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Total&nbsp;Amount</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="historyTableBody">
-                </tbody>
-            </table>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody id="tableDiscrption">
-                </tbody>
-            </table>
+            
+            <div class="table-container">
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Total&nbsp;Amount</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableDiscrption">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
