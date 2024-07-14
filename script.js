@@ -81,7 +81,7 @@ function populateHistoryTable() {
             <td>₹ ${transaction.amount.toFixed(2)}</td>
             <td>₹ ${transaction.balance.toFixed(2)}</td>
             <td>
-                <button class="btn btn-primary btn-sm" onclick="openEditTransactionModal(${index})">Edit</button>
+                <button class="btn btn-warning btn-sm" onclick="openEditTransactionModal(${index})">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${index})">Delete</button>
             </td>
         `;
@@ -196,7 +196,7 @@ async function saveAsPDF() {
     let y = 10; // Starting y position
     doc.setFontSize(12);
 
-    doc.text('Transaction History', 10, y);
+    doc.text('Transaction History ', 10, y);
     y += 10;
 
     // Add table headers
@@ -212,8 +212,8 @@ async function saveAsPDF() {
         doc.text((index + 1).toString(), 10, y);
         doc.text(transaction.date, 30, y);
         doc.text(transaction.type, 60, y);
-        doc.text('₹. ' + transaction.amount.toFixed(2), 90, y);
-        doc.text('₹. ' + transaction.balance.toFixed(2), 120, y);
+        doc.text('Rs. ' + transaction.amount.toFixed(2), 90, y);
+        doc.text('Rs. ' + transaction.balance.toFixed(2), 120, y);
         y += 10;
 
         // Check if the y position is beyond the page height, add new page if necessary
@@ -241,5 +241,13 @@ async function saveAsPDF() {
         }
     });
 
-    doc.save('transaction_history.pdf');
+    // Get current date
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = currentDate.toLocaleString('default', { month: 'long' });
+
+    // Generate file name with current day and month
+    const fileName = `history on ${day}_${month}.pdf`;
+
+    doc.save(fileName);
 }
