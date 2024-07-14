@@ -54,6 +54,23 @@ body {
 .selectTranjastion {
     margin-top: 20px;
 }
+
+/* Add a fixed height and scroll feature to the tables */
+.table-container {
+    height: 250px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Optional: To ensure the table headers remain fixed while scrolling */
+.table-container table thead {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+}
+
+
 @media (max-width: 796px) {
     .main-container{
         display: block;
@@ -69,19 +86,10 @@ body {
         padding-right: 50px;
         padding-top: 10px;
     }
-}
-
-/* Add a fixed height and scroll feature to the tables */
-.table-container {
-    height: 250px;
-    overflow-y: auto;
-    width: 100%;
-}
-
-/* Optional: To ensure the table headers remain fixed while scrolling */
-.table-container table thead {
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 1;
+    .table-container {
+        height: 250px;
+        overflow-y: auto;
+        width: 100%;
+        margin-bottom: 50px;
+    }
 }
