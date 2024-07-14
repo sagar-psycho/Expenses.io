@@ -70,3 +70,18 @@ body {
         padding-top: 10px;
     }
 }
+
+/* Add a fixed height and scroll feature to the tables */
+.table-container {
+    height: 250px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Optional: To ensure the table headers remain fixed while scrolling */
+.table-container table thead {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+}
