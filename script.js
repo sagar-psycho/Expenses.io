@@ -74,6 +74,8 @@ function populateHistoryTable() {
 
     transactionHistory.forEach((transaction, index) => {
         const row = document.createElement('tr');
+        row.style.backgroundColor = transaction.type === 'income' ? 'lightgreen' : 'lightcoral';
+
         row.innerHTML = `
             <th scope="row">${index + 1}</th>
             <td>${transaction.date}</td>
@@ -196,7 +198,7 @@ async function saveAsPDF() {
     let y = 10; // Starting y position
     doc.setFontSize(12);
 
-    doc.text('Transaction History ', 10, y);
+    doc.text('Transaction History', 10, y);
     y += 10;
 
     // Add table headers
@@ -251,3 +253,10 @@ async function saveAsPDF() {
 
     doc.save(fileName);
 }
+
+
+
+document.addEventListener("contextmenu", function(event){
+    alert("NO Inspect allowed");
+    event.preventDefault();
+})
