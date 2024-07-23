@@ -54,7 +54,11 @@
         <div class="container right-container">
             <h1>History</h1>
             <button type="button" class="btn btn-info mb-3 float-end" style="margin-top: -45px;" onclick="saveAsPDF()">Save as PDF</button>
-            
+            <!-- if user select checkbox then the related transaction should display -->
+            <div>
+                <input type="checkbox" id="incomeTransationDisplay" checked> Show Income
+                <input type="checkbox" id="expensesTransationDisplay" checked> Show Expenses
+            </div>            
             <div class="table-container">
                 <table class="table table-striped mt-3">
                     <thead>
@@ -71,7 +75,6 @@
                     </tbody>
                 </table>
             </div>
-            
             <div class="table-container">
                 <table class="table">
                     <thead>
