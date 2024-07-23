@@ -260,3 +260,55 @@ document.addEventListener("contextmenu", function(event){
     alert("NO Inspect allowed");
     event.preventDefault();
 })
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateBalanceDisplay();
+    populateHistoryTable();
+    populateDescriptionTable();
+
+    // Add event listeners to checkboxes
+    document.getElementById('incomeTransationDisplay').addEventListener('change', filterTransactions);
+    document.getElementById('expensesTransationDisplay').addEventListener('change', filterTransactions);
+});
+
+function populateHistoryTable() {
+    const tableBody = document.getElementById('historyTableBody');
+    tableBody.innerHTML = '';
+
+    const showIncome = document.getElementById('incomeTransationDisplay').checked;
+    const showExpenses = document.getElementById('expensesTransationDisplay').checked;
+
+    let filteredTransactions = transactionHistory;
+
+    if (showIncome && !showExpenses) {
+        filteredTransactions = transactionHistory.filter(transaction => transaction.type === 'income');
+    } else if (!showIncome && showExpenses) {
+        filteredTransactions = transactionHistory.filter(transaction => transaction.type === 'expenses');
+    } else if (!showIncome && !showExpenses) {
+        filteredTransactions = [];
+    }
+
+    filteredTransactions.forEach((transaction, index) => {
+        const row = document.createElement('tr');
+        row.style.backgroundColor = transaction.type === 'income' ? 'lightgreen' : 'lightcoral';
+
+        row.innerHTML = `
+            <th scope="row">${index + 1}</th>
+            <td>${transaction.date}</td>
+            <td>${transaction.type}</td>
+            <td>₹ ${transaction.amount.toFixed(2)}</td>
+            <td>₹ ${transaction.balance.toFixed(2)}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="openEditTransactionModal(${index})">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${index})">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+
+function filterTransactions() {
+    populateHistoryTable();
+}
