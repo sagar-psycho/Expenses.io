@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Expenses Calculation</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" href="https://res.cloudinary.com/dgeapuy5y/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1720733889/mascot-logo-design_P1_900x420_k0hky6.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+</head>
+<body>
+    <div class="whole">
+        <div class="container">
+            <div class="title">Login </div>
+            <form id="loginForm">
+                <div class="row">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Username"  required />
+                </div>
+                <div class="row">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password"  required />
+                </div>
+                <div class="pass"><a href="#">Note: Make sure that the password should be stored in your mind</a></div>
+                <div class="row bottom">
+                    <button type="submit">Login</button>
+                </div>
+                <p id="loginError" style="color:red;"></p>
+            </form>
+        </div>
+    </div>
+    <!-- value="1234" -->
+    <!-- value="admin" -->
+    <script src="auth.js"></script>
+</body>
+</html>
